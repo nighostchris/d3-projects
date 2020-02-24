@@ -1,17 +1,16 @@
 import React from 'react';
 import axios from 'axios';
-import PolarByCity from '../components/PolarByCity';
+import TimelineByOpen from '../components/charts/mark-series/TimelineByOpen';
 
 const IndexPage = (props) => {
-  return <PolarByCity data={props.data} />
+  return <TimelineByOpen data={props.data} />
 }
 
 IndexPage.getInitialProps =
   async function() {
     const res = await axios.get('http://localhost:3000/api/get-sakura-history');
-    const data = await res.data
+    const data = await res.data;
 
-    console.log(data);
     return {
       data: data
     };
