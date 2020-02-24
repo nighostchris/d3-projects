@@ -1,5 +1,6 @@
 import React from 'react';
-import { ScatterChart, Scatter, XAxis, YAxis, ZAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { ScatterChart, Scatter, XAxis, YAxis, ZAxis, Label, Tooltip, Legend } from 'recharts';
+import compareDate from '../../../utility/compareDate';
 
 let _ = require('lodash');
 
@@ -16,12 +17,10 @@ const TimelineByOpen = (props) => {
   const range = [100, 225];
 
   const data = Object.keys(test).map((key) => {
-    //const splitDate = key.split("/");
-    //new Date(, splitDate[0], splitDate[1] - 1)
     return {x: key, y: 1, size: test[key]};
   });
-
   console.log(data);
+  data.sort((a, b) => compareDate(a.x, b.x, data));
 
   return (
     <ScatterChart width={800} height={60} margin={{top: 10, right: 0, bottom: 0, left: 0}}>
@@ -30,7 +29,9 @@ const TimelineByOpen = (props) => {
         dataKey="x"
         interval={0}
         tickLine={{ transform: 'translate(0, -6)' }}
-      />
+      >
+        <Label value="Date" offset={0} position="insideBottom" />
+      </XAxis>
       <YAxis type="number" dataKey="y" height={10} width={80} tick={false} tickLine={false} axisLine={false} label={{ value: 'Frequency', position: 'insideRight' }}/>
       <ZAxis type="number" dataKey="size" domain={domain} range={range} />
       <Scatter data={data} fill='#8884d8'/>
