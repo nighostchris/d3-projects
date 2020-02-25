@@ -1,9 +1,14 @@
 import React from 'react';
 import axios from 'axios';
 import TimelineByOpen from '../components/charts/mark-series/TimelineByOpen';
+import Root from '../components/Root';
 
 const IndexPage = (props) => {
-  return <TimelineByOpen data={props.data} />
+  return (
+    <Root>
+      <TimelineByOpen data={props.data} />
+    </Root>
+  )
 }
 
 IndexPage.getInitialProps =
