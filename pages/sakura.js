@@ -11,12 +11,20 @@ const SakuraPage = (props) => {
   let _ = require('lodash');
   let openList = [];
   let fullList = [];
+  const stackedTimelineList = [];
+  const minList = [];
+  const maxList = [];
   const subareasList = [];
   const years = ["2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018"];
 
   years.forEach((year) => {
     openList.push(props.data[year][0]["open"][0]);
     fullList.push(props.data[year][0]["full"][0]);
+    let extendedDate = extendDate(props.data[year][0]["open"][0], props.data[year][0]["full"][0])
+    extendedDate.sort((a, b) => compareDate(a, b));
+    stackedTimelineList.push(extendedDate);
+    minList.push(extendedDate[0]);
+    maxList.push(extendedDate[extendedDate.length - 1]);
   });
 
   props.data["2010"][0]["subareas"].forEach((subarea) => {
@@ -41,17 +49,30 @@ const SakuraPage = (props) => {
   openData.sort((a, b) => compareDate(a.x, b.x));
   fullData.sort((a, b) => compareDate(a.x, b.x));
 
-  const stackedData = [
-    {x: '4/11', "2010": 1, "2011": 1, "2012": 0},
-    {x: '4/12', "2010": 1, "2011": 1, "2012": 1},
-    {x: '4/13', "2010": 0, "2011": 1, "2012": 1},
-  ];
+  const stackData = [];
+
+  minList.sort((a, b) => compareDate(a, b));
+  maxList.sort((a, b) => compareDate(a, b));
+  extendDate(minList[0], maxList[maxList.length - 1]).forEach((date) => {
+    let temp = {};
+    years.forEach((year, index) => {
+      if (stackedTimelineList[index].includes(date)) {
+        temp[`${year}`] = 1;
+      } else {
+        temp[`${year}`] = 0;
+      }
+    });
+    temp["x"] = date;
+    stackData.push(temp);
+  });
+
+  console.log(stackData);
 
   return (
     <Root>
       <TimelineChart data={extendData(extendDate(openData[0].x, openData[openData.length - 1].x), openData)} />
       <TimelineChart data={extendData(extendDate(fullData[0].x, fullData[fullData.length - 1].x), fullData)} />
-      <StackedTimelineChart data={stackedData} />
+      <StackedTimelineChart data={stackData} />
     </Root>
   )
 }
