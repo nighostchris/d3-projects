@@ -1,33 +1,9 @@
 import React from 'react';
 import { ScatterChart, Scatter, XAxis, YAxis, ZAxis, Tooltip, Legend } from 'recharts';
 import extendDate from '../../../utility/extendDate';
-import compareDate from '../../../utility/compareDate';
 
-let _ = require('lodash');
-
-const years = ["2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018"];
-
-const TimelineByOpen = (props) => {
-  let openList = [];
-  const subareasList = [];
+const TimelineByOpen = ({ data }) => {
   const extendedData = [];
-
-  years.forEach((year) => {
-    openList.push(props.data[year][0]["open"][0]);
-  });
-
-  props.data["2010"][0]["subareas"].forEach((subarea) => {
-    subareasList.push(subarea);
-  })
-
-  openList = _.countBy(openList);
-
-  const data = Object.keys(openList).map((key) => {
-    let size = openList[key] > 1 ? openList[key] * openList[key] : openList[key];
-    return {x: key, y: 1, size: size};
-  });
-
-  data.sort((a, b) => compareDate(a.x, b.x));
   const extendDateList = extendDate(data[0].x, data[data.length - 1].x);
 
   extendDateList.map((date) => {
@@ -49,7 +25,6 @@ const TimelineByOpen = (props) => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-      <h3>{`${subareasList[0]}`}</h3>
       <ScatterChart
         width={1000}
         height={80}
