@@ -79,7 +79,7 @@ const SakuraPage = (props) => {
 
 SakuraPage.getInitialProps =
   async function() {
-    const res = await axios.get('http://localhost:3000/api/get-sakura-history');
+    const res = await axios.get('https://data-visualization-ideas.now.sh/api/get-sakura-history');
     const data = await res.data;
 
     return {
