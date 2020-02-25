@@ -1,23 +1,20 @@
 import React from 'react';
-import { Form } from 'react-bootstrap';
+import { Typeahead } from 'react-bootstrap-typeahead';
 
-const Select = ({ title, value, setValue, optionList }) => (
-  <Form.Group>
-    <Form.Label>{title}</Form.Label>
-    <Form.Control
-      as="select"
-      value={value}
-      onChange={(e) => setValue((e.target.value))}
-    >
-      {
-        optionList.map((option, index) => (
-          <option key={`form-control-option-${index}`}>
-            {option}
-          </option>
-        ))
-      }
-    </Form.Control>
-  </Form.Group>
-);
+const Select = ({ title, placeholder, selected, setSelected, options }) => {
+
+  return (
+    <>
+      { title && <h5 style={{ color: '#4e73df', fontWeight: 'bold' }}>{title}</h5> }
+      <Typeahead
+        id="custom-typeahead"
+        options={options}
+        selected={selected}
+        placeholder={placeholder}
+        onChange={(selected) => setSelected([...selected]) }
+      />
+    </>
+  );
+}
 
 export default Select;
