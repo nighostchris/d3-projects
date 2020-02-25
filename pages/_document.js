@@ -22,7 +22,7 @@ class CustomDocument extends Document {
             rel="stylesheet"
             href="https://pro.fontawesome.com/releases/v5.12.0/css/all.css"
             integrity="sha384-ekOryaXPbeCpWQNxMwSWVvQ0+1VrStoPJq54shlYhR8HzQgig1v5fas6YgOqLoKz"
-            crossorigin="anonymous"
+            crossOrigin="anonymous"
           />
         </Head>
         <body>
