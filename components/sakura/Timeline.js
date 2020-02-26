@@ -36,8 +36,8 @@ const Timeline = ({ data: fetchData, mode, city }) => {
     if (city) {
       const cityIndex = findCityIndex(city);
 
-      years.forEach((year, yearIndex) => {
-        data.push(fetchData[year][cityIndex[yearIndex][0]][mode][cityIndex[yearIndex][1]]);
+      cityIndex.forEach((city, index) => {
+        data.push(fetchData[years[index]][city[0]][mode][city[1]]);
       });
 
       data = data.map((d) => {
