@@ -11,18 +11,21 @@ const Timeline = ({ data: fetchData, mode, city }) => {
   let data = [];
 
   const findCityIndex = (cityname) => {
-    let found = false;
     let result = [];
 
-    fetchData["2010"].forEach((area, a_index) => {
-      if (found) { return false; }
+    years.forEach((year) => {
+      let found = false;
 
-      area["subareas"].forEach((subarea, sa_index) => {
-        if (subarea === cityname) {
-          found = true;
-          result = [a_index, sa_index];
-          return false;
-        }
+      fetchData[year].forEach((area, a_index) => {
+        if (found) { return false; }
+  
+        area["subareas"].forEach((subarea, sa_index) => {
+          if (subarea === cityname) {
+            found = true;
+            result.push([a_index, sa_index]);
+            return false;
+          }
+        });
       });
     });
 
@@ -33,9 +36,16 @@ const Timeline = ({ data: fetchData, mode, city }) => {
     if (city) {
       const cityIndex = findCityIndex(city);
 
-      years.forEach((year) => {
-        data.push(fetchData[year][cityIndex[0]][mode][cityIndex[1]]);
+      years.forEach((year, yearIndex) => {
+        data.push(fetchData[year][cityIndex[yearIndex][0]][mode][cityIndex[yearIndex][1]]);
       });
+
+      data = data.map((d) => {
+        let [month, day] = d.split("/").map(Number);
+        return `${month}/${day}`;
+      });
+
+      data.sort((a, b) => compareDate(a, b));
 
       data = _.countBy(data);
 
@@ -45,7 +55,6 @@ const Timeline = ({ data: fetchData, mode, city }) => {
         return {x: `${splitMonth}/${splitDay}`, y: 1, size: size};
       });
 
-      data.sort((a, b) => compareDate(a.x, b.x));
       data = extendData(extendDate(data[0].x, data[data.length - 1].x), data);
     }
   }

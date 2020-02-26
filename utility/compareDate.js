@@ -1,6 +1,9 @@
 const compareDate = (a, b) => {
-  const [firstMonth, firstDay] = a.split("/").map(Number);
-  const [secondMonth, secondDay] = b.split("/").map(Number);
+  let [firstMonth, firstDay] = a.split("/").map(Number);
+  let [secondMonth, secondDay] = b.split("/").map(Number);
+
+  if (firstMonth === 12) { firstMonth -= 12; }
+  if (secondMonth === 12) { secondMonth -= 12; }
 
   if (firstMonth > secondMonth) {
     return 1;

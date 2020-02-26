@@ -71,7 +71,7 @@ const SakuraPage = (props) => {
           </div>
         </Row>
       </div>
-      <div className="col-xl-10" style={{ marginTop: '20px', marginLeft: 'auto', marginRight: 'auto' }}>
+      <div className="col-xl-12" style={{ marginTop: '20px', marginLeft: 'auto', marginRight: 'auto' }}>
         { subareaSelected !== [] && <Timeline data={props.data} mode="open" city={subareaSelected[0]} /> }
         { subareaSelected !== [] && <Timeline data={props.data} mode="full" city={subareaSelected[0]} /> }
       </div>
